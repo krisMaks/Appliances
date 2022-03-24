@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CatalogView: View {
+    @State private var isDetailPresented = false
     
     let layoutForMain = [GridItem(.adaptive(minimum: screen.width / 2.0), spacing: 0)]
     let layoutForPopular = [GridItem(.fixed(180),
@@ -34,6 +35,9 @@ struct CatalogView: View {
                     LazyVGrid(columns: layoutForMain,
                               spacing: 20) {
                         ProductCell()
+                            .onTapGesture {
+                                isDetailPresented.toggle()
+                            }
                         ProductCell()
                         ProductCell()
                         ProductCell()
@@ -44,6 +48,8 @@ struct CatalogView: View {
                     }
                 }
             }
+        }.sheet(isPresented: $isDetailPresented) {
+            ProductView()
         }
     }
 }

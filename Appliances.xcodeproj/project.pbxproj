@@ -19,6 +19,9 @@
 		AF139D7427EA302D000F7F62 /* OrderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF139D7327EA302D000F7F62 /* OrderCell.swift */; };
 		AF139D7627EA365B000F7F62 /* ProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF139D7527EA365B000F7F62 /* ProductCell.swift */; };
 		AF139D7827EA3B7A000F7F62 /* PopularCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF139D7727EA3B7A000F7F62 /* PopularCell.swift */; };
+		AF139D7B27ECC6CC000F7F62 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF139D7A27ECC6CC000F7F62 /* ImagePicker.swift */; };
+		AF139D7F27ECC725000F7F62 /* ImagePickerSourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF139D7E27ECC725000F7F62 /* ImagePickerSourceType.swift */; };
+		AF139D8127ECCDC1000F7F62 /* ProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF139D8027ECCDC1000F7F62 /* ProductView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +38,9 @@
 		AF139D7327EA302D000F7F62 /* OrderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCell.swift; sourceTree = "<group>"; };
 		AF139D7527EA365B000F7F62 /* ProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCell.swift; sourceTree = "<group>"; };
 		AF139D7727EA3B7A000F7F62 /* PopularCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularCell.swift; sourceTree = "<group>"; };
+		AF139D7A27ECC6CC000F7F62 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		AF139D7E27ECC725000F7F62 /* ImagePickerSourceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerSourceType.swift; sourceTree = "<group>"; };
+		AF139D8027ECCDC1000F7F62 /* ProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,10 +73,12 @@
 		AF139D3327E4E641000F7F62 /* Appliances */ = {
 			isa = PBXGroup;
 			children = (
+				AF139D7D27ECC703000F7F62 /* Model */,
 				AF139D3427E4E641000F7F62 /* AppliancesApp.swift */,
 				AF139D7227EA2D9A000F7F62 /* Views */,
 				AF139D3827E4E643000F7F62 /* Assets.xcassets */,
 				AF139D3A27E4E643000F7F62 /* Preview Content */,
+				AF139D7C27ECC6D1000F7F62 /* UIKitRepresentable */,
 			);
 			path = Appliances;
 			sourceTree = "<group>";
@@ -103,8 +111,25 @@
 				AF139D4427E4F234000F7F62 /* CatalogView.swift */,
 				AF139D4627E4F253000F7F62 /* CartView.swift */,
 				AF139D4827E4F264000F7F62 /* ProfileView.swift */,
+				AF139D8027ECCDC1000F7F62 /* ProductView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		AF139D7C27ECC6D1000F7F62 /* UIKitRepresentable */ = {
+			isa = PBXGroup;
+			children = (
+				AF139D7A27ECC6CC000F7F62 /* ImagePicker.swift */,
+			);
+			path = UIKitRepresentable;
+			sourceTree = "<group>";
+		};
+		AF139D7D27ECC703000F7F62 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				AF139D7E27ECC725000F7F62 /* ImagePickerSourceType.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -182,10 +207,13 @@
 				AF139D3727E4E641000F7F62 /* AuthView.swift in Sources */,
 				AF139D7827EA3B7A000F7F62 /* PopularCell.swift in Sources */,
 				AF139D4327E4F0ED000F7F62 /* TabBarView.swift in Sources */,
+				AF139D8127ECCDC1000F7F62 /* ProductView.swift in Sources */,
 				AF139D4527E4F234000F7F62 /* CatalogView.swift in Sources */,
 				AF139D4927E4F264000F7F62 /* ProfileView.swift in Sources */,
+				AF139D7B27ECC6CC000F7F62 /* ImagePicker.swift in Sources */,
 				AF139D7627EA365B000F7F62 /* ProductCell.swift in Sources */,
 				AF139D7427EA302D000F7F62 /* OrderCell.swift in Sources */,
+				AF139D7F27ECC725000F7F62 /* ImagePickerSourceType.swift in Sources */,
 				AF139D3527E4E641000F7F62 /* AppliancesApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

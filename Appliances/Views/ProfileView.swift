@@ -16,14 +16,18 @@ struct ProfileView: View {
     @Environment (\.dismiss) var dismiss
     @State var isShowActionSheet = false
     @State var isShowImagePickerAlert = false
+    @State private var isShowPicker = false
+    @State private var source: ImagePickerSourceType = .gallery
+    @State private var profilePicture: UIImage? = UIImage(systemName: "person.circle")
     
     var body: some View {
         VStack {
             VStack(alignment: .leading) {
                 HStack {
-                    Image(systemName: "person.circle")
+                    Image(uiImage: profilePicture!)
                         .resizable()
                         .frame(width: 90, height: 90)
+                        .cornerRadius(45)
                         .padding(6)
                         .onTapGesture {
                             isShowImagePickerAlert.toggle()
@@ -92,13 +96,15 @@ struct ProfileView: View {
         
         .confirmationDialog("Откуда взять картинку?", isPresented: $isShowImagePickerAlert, titleVisibility: .visible) {
             Button {
-                
+                source = .camera
+                isShowPicker.toggle()
             } label: {
                 Text("Камера")
             }
             
             Button {
-                
+                source = .gallery
+                isShowPicker.toggle()
             } label: {
                 Text("Галерея")
             }
@@ -106,7 +112,14 @@ struct ProfileView: View {
             Button(role: .cancel) { } label: {
                 Text("Отмена")
             }
-        } 
+        }
+        .sheet(isPresented: $isShowPicker) {
+            ImagePicker(sourceType: self.source == .camera ? .camera : .photoLibrary,
+                        selectedImage: $profilePicture)
+                .onDisappear {
+                    print("Сохранение в храниище")
+                }
+        }
     }
 }
 
