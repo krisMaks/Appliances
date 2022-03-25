@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProductCell: View {
     
+    let product: Product
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -17,10 +18,10 @@ struct ProductCell: View {
                 .aspectRatio(contentMode: .fill)
                 .frame(maxWidth: screen.width * 0.45, maxHeight: screen.width * 0.5)
                 
-            Text("Dyson Moto moto")
+            Text(product.title)
                 .font(.custom("AvenirNext-regular", size: 14))
                 .padding(.horizontal, 6)
-            Text("360099 ₽")
+            Text("\(product.price) ₽")
                 .font(.custom("AvenirNext-bold", size: 16))
                 .padding(.horizontal, 6)
         }
@@ -28,11 +29,5 @@ struct ProductCell: View {
         .cornerRadius(12)
         .shadow(radius: 2)
         .padding(5)
-    }
-}
-
-struct ProductCell_Previews: PreviewProvider {
-    static var previews: some View {
-        ProductCell()
     }
 }

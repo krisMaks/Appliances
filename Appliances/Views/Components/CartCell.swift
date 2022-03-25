@@ -8,27 +8,23 @@
 import SwiftUI
 
 struct CartCell: View {
+    var position: Position
+    
     var body: some View {
         HStack {
-            Text("Dyson Animal 18l")
+            Text(position.product.title)
                 .font(.custom("AvenirNext-bold", size: 14))
             Spacer()
             VStack(alignment: .center) {
-                Text("38 990 ₽")
-                Text("1 шт")
+                Text("\(position.product.price)")
+                Text("\(position.count) шт")
             }
             .frame(width: 100)
             .font(.custom("AvenirNext-regular", size: 14))
-            Text("78 980 ₽")
+            Text("\(position.cost) ₽")
                 .frame(width: 90)
                 .font(.custom("AvenirNext-bold", size: 14))
             
         }
-    }
-}
-
-struct CartCell_Previews: PreviewProvider {
-    static var previews: some View {
-        CartCell()
     }
 }

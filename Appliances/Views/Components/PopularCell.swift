@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct PopularCell: View {
+    
+    let product: Product
+    
     var body: some View {
         VStack {
             Image("authBG")
@@ -15,14 +18,12 @@ struct PopularCell: View {
                 .frame(width: 80,
                        height: 80)
                 .cornerRadius(40)
-            Text("Panasonic\nc4500")
+            Text(product.title)
                 .multilineTextAlignment(.center)
+                .lineLimit(3)
+                .frame(width: 120)
         }.padding(5)
     }
 }
 
-struct PopularCell_Previews: PreviewProvider {
-    static var previews: some View {
-        PopularCell()
-    }
-}
+

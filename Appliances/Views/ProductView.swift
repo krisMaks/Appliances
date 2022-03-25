@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct ProductView: View {
-    @State var count = 1
+    
     @Environment (\.dismiss) var dismiss
+    @StateObject var viewModel: ProductViewModel
+    
+    
     var body: some View {
         VStack {
             Image("authBG")
@@ -18,11 +21,11 @@ struct ProductView: View {
                 .aspectRatio(1, contentMode: .fit)
             HStack {
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Dyson VB-1600")
+                    Text(viewModel.product.title)
                         .font(.custom("AvenirNext-bold", size: 22))
-                    Text("678 000 ₽")
+                    Text("\(viewModel.product.price) ₽")
                         .font(.custom("AvenirNext-regular", size: 20))
-                    Text("Description")
+                    Text(viewModel.product.descr)
                         .font(.custom("AvenirNext-regular", size: 16))
 
                     
@@ -32,13 +35,22 @@ struct ProductView: View {
             
             HStack {
                 Stepper("Количество",
-                        value: $count,
+                        value: $viewModel.count,
                         in: 1...10)
-                Text("\(self.count)")
+                Text("\(viewModel.count)")
                     .padding(.leading, 30)
             }.padding()
             Button {
                 print("В корзину")
+                let product = Product(id: "1",
+                                      title: "Блендер",
+                                      descr: "Хорошенький",
+                                      price: 40990,
+                                      isPopular: false)
+                let position = Position(id: UUID().uuidString,
+                                        product: product,
+                                        count: viewModel.count)
+                CartViewModel.shared.positions.append(position)
                 dismiss()
             } label: {
                 Text("В корзину")
@@ -57,6 +69,11 @@ struct ProductView: View {
 
 struct ProductView_Previews: PreviewProvider {
     static var previews: some View {
-        ProductView()
+        let viewModel = ProductViewModel(product: Product(id: "1",
+                                                          title: "Блендер",
+                                                          descr: "Хорошенький",
+                                                          price: 40990,
+                                                          isPopular: false))
+        ProductView(viewModel: viewModel)
     }
 }

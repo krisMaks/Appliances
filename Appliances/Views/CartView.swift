@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct CartView: View {
+    
+    @StateObject var viewModel: CartViewModel
+    
     var body: some View {
         VStack {
             HStack {
@@ -15,20 +18,30 @@ struct CartView: View {
                     .font(.custom("AvenirNext-bold", size: 26))
                 Spacer()
             }.padding()
-            List {
-                CartCell()
+            List(viewModel.positions) { position in
+                CartCell(position: position)
+                    .swipeActions {
+                        Button {
+                            viewModel.positions.removeAll { pos in
+                                pos.id == position.id && pos.cost == position.cost
+                            }
+                        } label: {
+                            Text("Удалить")
+                        }.tint(.red)
+                    }
             }.listStyle(.plain)
             HStack {
                 Text("Итого:")
                     .font(.custom("AvenirNext-bold", size: 16))
                 Spacer()
-                Text("23577 ₽")
+                Text("\(viewModel.cost) ₽")
                     .font(.custom("AvenirNext-bold", size: 16))
             }.padding()
             
             HStack(spacing: 34) {
                 Button {
                     print("Clear")
+                    viewModel.positions.removeAll()
                 } label: {
                     Text("Очистить")
                         .frame(width: 120,
@@ -38,9 +51,7 @@ struct CartView: View {
                         .foregroundColor(.white)
                         .cornerRadius(12)
                 }
-                
-                
-                
+              
                 Button {
                     print("Заказать")
                 } label: {
@@ -58,6 +69,6 @@ struct CartView: View {
 
 struct CartView_Previews: PreviewProvider {
     static var previews: some View {
-        CartView()
+        CartView(viewModel: CartViewModel.shared)
     }
 }
