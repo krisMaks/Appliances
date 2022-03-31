@@ -12,12 +12,12 @@ struct AuthView: View {
     @State var email = ""
     @State var password = ""
     @State var confirm = ""
-    
+    @State var message = ""
+    @State var isAlertShow = false
     @State var isAuth = true
     @State var isTabBarShow = false
     
     var body: some View {
-        
         
         VStack  {
             VStack(spacing: 12) {
@@ -50,10 +50,40 @@ struct AuthView: View {
                 }
                 Button {
                     if isAuth {
-                        isTabBarShow.toggle()
+                        AuthService.shared.signIn(email: email,
+                                                  password: password) { result in
+                            switch result {
+                            case .success(_):
+                                isTabBarShow.toggle()
+                            case .failure(let error):
+                                message = "Ошибка авторизации \(error.localizedDescription)"
+                                isAlertShow.toggle()
+                            }
+                        }
+                        
                     } else {
-                        print("Sign Up")
-                        isAuth = true
+                        guard password == confirm else {
+                            message = "Пароли не совпадают"
+                            isAlertShow.toggle()
+                            return
+                        }
+                        AuthService.shared.signUp(email: email,
+                                                  password: password) { result in
+                            switch result {
+                            case .success(let user):
+                                if let email = user.email {
+                                    message = "Успешно! Пользователь \(email) зарегистрирован"
+                                }
+                                isAlertShow.toggle()
+                                email = ""
+                                password = ""
+                                confirm = ""
+                                isAuth = true
+                            case .failure(let error):
+                                message = "Войти не удалось. Ошибка \(error.localizedDescription)"
+                            }
+                        }
+                        
                     }
                 } label: {
                     Text(isAuth ? "Войти" : "Создать аккаунт")
@@ -87,6 +117,10 @@ struct AuthView: View {
                          onDismiss: nil) {
             TabBarView()
         }
+                         .alert(message,
+                                isPresented: $isAlertShow) {
+                             Text("OK")
+                         }
     }
 }
 

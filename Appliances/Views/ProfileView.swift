@@ -19,6 +19,8 @@ struct ProfileView: View {
     @State private var isShowPicker = false
     @State private var source: ImagePickerSourceType = .gallery
     @State private var profilePicture: UIImage? = UIImage(systemName: "person.circle")
+    @State var isFromAuth = false
+    @State private var showAuthScreen = false
     
     var body: some View {
         VStack {
@@ -81,7 +83,13 @@ struct ProfileView: View {
         }
         .confirmationDialog("Внимание!", isPresented: $isShowActionSheet, titleVisibility: .visible) {
             Button(role: .destructive) {
-                dismiss()
+                AuthService.shared.signOut {
+                    if isFromAuth {
+                        dismiss()
+                    } else {
+                        showAuthScreen.toggle()
+                    }
+                }
             } label: {
                 Text("Да")
             }
@@ -93,7 +101,9 @@ struct ProfileView: View {
         } message: {
             Text("Вы действительно хотите выйти?")
         }
-        
+        .fullScreenCover(isPresented: $showAuthScreen, content: {
+            AuthView()
+        })
         .confirmationDialog("Откуда взять картинку?", isPresented: $isShowImagePickerAlert, titleVisibility: .visible) {
             Button {
                 source = .camera
