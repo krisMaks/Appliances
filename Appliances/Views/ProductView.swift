@@ -42,14 +42,15 @@ struct ProductView: View {
             }.padding()
             Button {
                 print("В корзину")
-                let product = Product(id: "1",
-                                      title: "Блендер",
-                                      descr: "Хорошенький",
-                                      price: 40990,
+                let product = Product(id: viewModel.product.id,
+                                      title: viewModel.product.title,
+                                      descr: viewModel.product.descr,
+                                      price: viewModel.product.price,
                                       isPopular: false)
-                let position = Position(id: UUID().uuidString,
-                                        product: product,
-                                        count: viewModel.count)
+                let position = Position(id: UUID().uuidString, 
+                                        count: viewModel.count,
+                                        title: product.title,
+                                        price: product.price)
                 CartViewModel.shared.positions.append(position)
                 dismiss()
             } label: {

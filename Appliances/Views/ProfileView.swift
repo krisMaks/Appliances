@@ -10,9 +10,6 @@ import SwiftUI
 struct ProfileView: View {
     
     var order = [String]()
-    @State var name = "Вася Курочкин"
-    @State var phone = "9819888998"
-    @State var address = "Москва, Москоская область, Ленинградский район, улица Любимова, дом 17, корпус 12, литерал А, квартира 189, 123456"
     @Environment (\.dismiss) var dismiss
     @State var isShowActionSheet = false
     @State var isShowImagePickerAlert = false
@@ -21,6 +18,7 @@ struct ProfileView: View {
     @State private var profilePicture: UIImage? = UIImage(systemName: "person.circle")
     @State var isFromAuth = false
     @State private var showAuthScreen = false
+    @StateObject var viewModel: ProfileViewModel
     
     var body: some View {
         VStack {
@@ -35,12 +33,12 @@ struct ProfileView: View {
                             isShowImagePickerAlert.toggle()
                         }
                     VStack(alignment: .leading, spacing: 6) {
-                        TextField("Введите имя:", text: $name)
+                        TextField("Введите имя:", text: $viewModel.user.name)
                             .font(.custom("AvenirNext-bold", size: 22))
                         HStack {
                             Text("+7")
                                 .font(.custom("AvenirNext-regular", size: 20))
-                            TextField("Введите номер телефона:", text: $phone)
+                            TextField("Введите номер телефона:", text: $viewModel.phone)
                                 .font(.custom("AvenirNext-regular", size: 20))
                                 .keyboardType(.numberPad)
                         }
@@ -50,7 +48,7 @@ struct ProfileView: View {
                 Text("Адрес доставки:")
                     .padding(.horizontal, 6)
                     .font(.custom("AvenirNext-bold", size: 16))
-                TextField("Введите Ваш адрес:", text: $address)
+                TextField("Введите Ваш адрес:", text: $viewModel.user.address)
                     .padding(.horizontal, 6)
                     .font(.custom("AvenirNext-regular", size: 14))
                 
@@ -79,6 +77,22 @@ struct ProfileView: View {
                     .background(Color.red)
                     .font(.custom("AvenirNext-bold", size: 16))
                     .cornerRadius(12)
+            }
+        }
+        .onSubmit {
+            if let phone = Int(viewModel.phone) {
+                if viewModel.phone.count == 10 {
+                    viewModel.user.phone = phone
+                }
+            }
+            
+            DatabaseService.shared.setUser(user: viewModel.user) { result in
+                switch result {
+                case .success(let user):
+                    print(user)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
             }
         }
         .confirmationDialog("Внимание!", isPresented: $isShowActionSheet, titleVisibility: .visible) {
@@ -123,9 +137,22 @@ struct ProfileView: View {
                 Text("Отмена")
             }
         }
+        .onAppear {
+            DatabaseService.shared.getUser(id: AuthService.shared.currentUser!.uid) { result in
+                switch result {
+                    
+                case .success(let user):
+                    viewModel.user = user
+                    viewModel.phone = "\(user.phone)"
+                case .failure(let error):
+                    print("Ошибка получения данных профиля \(error.localizedDescription)")
+                }
+            }
+        }
         .sheet(isPresented: $isShowPicker) {
             ImagePicker(sourceType: self.source == .camera ? .camera : .photoLibrary,
                         selectedImage: $profilePicture)
+                
                 .onDisappear {
                     print("Сохранение в храниище")
                 }
@@ -135,6 +162,7 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView()
+        let viewModel = ProfileViewModel(user: Users(id: "", name: "", phone: 890011, address: ""))
+        ProfileView(viewModel: viewModel)
     }
 }

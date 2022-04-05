@@ -53,7 +53,22 @@ struct CartView: View {
                 }
               
                 Button {
-                    print("Заказать")
+                    var order = Order(userID: AuthService.shared.currentUser!.uid,
+                                      date: Date())
+                    order.positions = self.viewModel.positions
+                    DatabaseService.shared.sendOrder(with: order) { result in
+                        switch result {
+                        case .success(let order):
+                            print("Заказ принят в \(order.date)")
+                            viewModel.positions.removeAll()
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                        }
+                    }
+                    
+                    
+                    
+                    
                 } label: {
                     Text("Заказать")
                         .frame(maxWidth: .infinity,

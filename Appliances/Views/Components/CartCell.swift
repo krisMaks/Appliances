@@ -12,11 +12,11 @@ struct CartCell: View {
     
     var body: some View {
         HStack {
-            Text(position.product.title)
+            Text(position.title)
                 .font(.custom("AvenirNext-bold", size: 14))
             Spacer()
             VStack(alignment: .center) {
-                Text("\(position.product.price)")
+                Text("\(position.price)")
                 Text("\(position.count) шт")
             }
             .frame(width: 100)

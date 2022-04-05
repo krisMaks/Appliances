@@ -10,7 +10,7 @@ import Foundation
 class ProductViewModel: ObservableObject {
     
     @Published var product: Product
-    @Published var count = 0
+    @Published var count = 1
     
     init(product: Product) {
         self.product = product
