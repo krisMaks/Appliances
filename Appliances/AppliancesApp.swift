@@ -24,8 +24,10 @@ struct AppliancesApp: App {
 //                    }
 //                }
                 TabBarView()
+                    .preferredColorScheme(.light)
             } else {
             AuthView()
+                    .preferredColorScheme(.light)
             }
         }
     }

@@ -8,13 +8,16 @@
 import SwiftUI
 
 struct OrderCell: View {
+    
+    var order: Order
+    
     var body: some View {
         HStack(spacing: 24) {
-            Text("22.03.2022")
+            Text("\(order.date)")
                 .font(.custom("AvenirNext-bold", size: 16))
             Spacer()
-            Text("890099 ₽")
-            Text("Выполнен")
+            Text("\(order.cost) ₽")
+            Text("\(order.status)")
                 .foregroundColor(.green)
         }.padding()
     }
@@ -22,6 +25,8 @@ struct OrderCell: View {
 
 struct OrderCell_Previews: PreviewProvider {
     static var previews: some View {
-        OrderCell()
+        OrderCell(order: Order(id: "12345",
+                               userID: "sdd",
+                               date: Date()))
     }
 }

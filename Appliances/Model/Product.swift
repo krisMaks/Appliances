@@ -13,4 +13,14 @@ struct Product {
     var descr: String
     var price: Int
     var isPopular: Bool
+    
+    var representation: [String: Any] {
+        var repres = [String: Any]()
+        repres["id"] = id
+        repres["title"] = title
+        repres["descr"] = descr
+        repres["price"] = price
+        repres["isPopular"] = isPopular
+        return repres
+    }
 }

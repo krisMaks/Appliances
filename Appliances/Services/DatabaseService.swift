@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseFirestore
+import UIKit
 
 class DatabaseService {
     
@@ -14,10 +15,54 @@ class DatabaseService {
     let db = Firestore.firestore()
     var usersRef: CollectionReference { db.collection("users") }
     var ordersRef: CollectionReference { db.collection("orders") }
+    var productsRef: CollectionReference { db.collection("products") }
     
     private init() { }
     
-    func getOrders(userID: String, completion: @escaping (Result<[Order], Error>) -> ()) {
+    func createProduct(_ product: Product,
+                       image: UIImage,
+                       completion: @escaping (Result<String, Error>) -> ()) {
+        productsRef.document(product.id).setData(product.representation) { error in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                StorageService.shared.uploadProductImage(image: image,
+                                                         by: product.id) { result in
+                    switch result {
+                    case .success(let size):
+                        print(size)
+                        completion(.success(product.id))
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    func getPositions(in order: String,
+                      completion: @escaping (Result<[Position], Error>) -> ()) {
+        let orderRef = ordersRef.document(order)
+        let positionsRef = orderRef.collection("positions")
+        
+        positionsRef.getDocuments { qSnap, error in
+            var positions = [Position]()
+            if let qSnap = qSnap {
+                for doc in qSnap.documents {
+                    if let position = Position(doc: doc) {
+                        positions.append(position)
+                    }
+                }
+                completion(.success(positions))
+            } else if let error = error {
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    func getOrders(userID: String,
+                   completion: @escaping (Result<[Order], Error>) -> ()) {
         var orders = [Order]()
         ordersRef.getDocuments { queryDocSnap, error in
             if let error = error {
@@ -53,7 +98,9 @@ class DatabaseService {
         }
     }
     
-    func sendPositions(orderID: String, positions: [Position], completion: @escaping (Result<Int, Error>) -> ()) {
+    func sendPositions(orderID: String,
+                       positions: [Position],
+                       completion: @escaping (Result<Int, Error>) -> ()) {
         let positionRef = ordersRef.document(orderID).collection("positions")
         for position in positions {
             positionRef.document(position.id).setData(position.representation) { error in
@@ -77,7 +124,8 @@ class DatabaseService {
         }
     }
     
-    func getUser(id: String, completion: @escaping (Result<Users, Error>) -> ()) {
+    func getUser(id: String,
+                 completion: @escaping (Result<Users, Error>) -> ()) {
         let docRef = usersRef.document(id)
         docRef.getDocument { docSnap, error in
             if let docSnap = docSnap, docSnap.exists {

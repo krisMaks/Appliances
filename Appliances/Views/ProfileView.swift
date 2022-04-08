@@ -9,13 +9,11 @@ import SwiftUI
 
 struct ProfileView: View {
     
-    var order = [String]()
     @Environment (\.dismiss) var dismiss
     @State var isShowActionSheet = false
     @State var isShowImagePickerAlert = false
     @State private var isShowPicker = false
     @State private var source: ImagePickerSourceType = .gallery
-    @State private var profilePicture: UIImage? = UIImage(systemName: "person.circle")
     @State var isFromAuth = false
     @State private var showAuthScreen = false
     @StateObject var viewModel: ProfileViewModel
@@ -24,7 +22,7 @@ struct ProfileView: View {
         VStack {
             VStack(alignment: .leading) {
                 HStack {
-                    Image(uiImage: profilePicture!)
+                    Image(uiImage: viewModel.profilePicture!)
                         .resizable()
                         .frame(width: 90, height: 90)
                         .cornerRadius(45)
@@ -52,7 +50,7 @@ struct ProfileView: View {
                     .padding(.horizontal, 6)
                     .font(.custom("AvenirNext-regular", size: 14))
                 
-                if self.order.isEmpty {
+                if self.viewModel.orders.isEmpty {
                     Text("Сдесь будут Ваша заказы")
                         .multilineTextAlignment(.center)
                         .frame(maxWidth: .infinity,
@@ -62,7 +60,10 @@ struct ProfileView: View {
                         .foregroundColor(.gray)
                 } else {
                     List {
-                        OrderCell()
+                        ForEach(viewModel.orders,
+                                id: \.id) { order in
+                            OrderCell(order: order)
+                        }
                     }.listStyle(.plain)
                 }
                 
@@ -85,15 +86,7 @@ struct ProfileView: View {
                     viewModel.user.phone = phone
                 }
             }
-            
-            DatabaseService.shared.setUser(user: viewModel.user) { result in
-                switch result {
-                case .success(let user):
-                    print(user)
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-            }
+            viewModel.setUser()
         }
         .confirmationDialog("Внимание!", isPresented: $isShowActionSheet, titleVisibility: .visible) {
             Button(role: .destructive) {
@@ -110,8 +103,8 @@ struct ProfileView: View {
             Button(role: .cancel) { } label: {
                 Text("Нет")
             }
-
-
+            
+            
         } message: {
             Text("Вы действительно хотите выйти?")
         }
@@ -138,23 +131,15 @@ struct ProfileView: View {
             }
         }
         .onAppear {
-            DatabaseService.shared.getUser(id: AuthService.shared.currentUser!.uid) { result in
-                switch result {
-                    
-                case .success(let user):
-                    viewModel.user = user
-                    viewModel.phone = "\(user.phone)"
-                case .failure(let error):
-                    print("Ошибка получения данных профиля \(error.localizedDescription)")
-                }
-            }
+            viewModel.getProfile()
         }
         .sheet(isPresented: $isShowPicker) {
             ImagePicker(sourceType: self.source == .camera ? .camera : .photoLibrary,
-                        selectedImage: $profilePicture)
-                
+                        selectedImage: $viewModel.profilePicture)
+            
                 .onDisappear {
-                    print("Сохранение в храниище")
+                    guard let profilePicture = viewModel.profilePicture else { return }
+                    viewModel.upload(avatar: profilePicture)
                 }
         }
     }

@@ -17,7 +17,7 @@ enum OrderStatus: String {
 }
 
 
-struct Order {
+struct Order: Identifiable {
     
     var id: String = UUID().uuidString
     var positions: [Position] = []
