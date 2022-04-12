@@ -17,6 +17,9 @@ struct ProfileView: View {
     @State var isFromAuth = false
     @State private var showAuthScreen = false
     @StateObject var viewModel: ProfileViewModel
+    @State private var isShowOrderView = false
+    @State private var order = Order(userID: "", date: Date())
+    @State var progress: Float = 10
     
     var body: some View {
         VStack {
@@ -63,6 +66,12 @@ struct ProfileView: View {
                         ForEach(viewModel.orders,
                                 id: \.id) { order in
                             OrderCell(order: order)
+                                .onTapGesture {
+                                    self.order = order
+                                    if order.positions.count > 0 {
+                                    isShowOrderView.toggle()
+                                    }
+                                }
                         }
                     }.listStyle(.plain)
                 }
@@ -108,6 +117,10 @@ struct ProfileView: View {
         } message: {
             Text("Вы действительно хотите выйти?")
         }
+        .sheet(isPresented: $isShowOrderView, content: {
+            let orderViewModel = OrderViewModel(order: self.order)
+            OrderView(viewModel: orderViewModel)
+        })
         .fullScreenCover(isPresented: $showAuthScreen, content: {
             AuthView()
         })

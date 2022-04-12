@@ -14,7 +14,7 @@ struct AppliancesApp: App {
     
     var body: some Scene {
         WindowGroup {
-            if let _ = AuthService.shared.currentUser {
+            if let user = AuthService.shared.currentUser {
 //                DatabaseService.shared.getUser(id: user.uid) { result in
 //                    switch result {
 //                    case .success(let user):
@@ -23,8 +23,13 @@ struct AppliancesApp: App {
 //                        AuthView()
 //                    }
 //                }
-                TabBarView()
-                    .preferredColorScheme(.light)
+                if user.uid == "gsTSbgVWswYHIGILKLFkWqovbrC2" {
+                    AddProductView()
+                } else {
+                    TabBarView()
+                        .preferredColorScheme(.light)
+                }
+
             } else {
             AuthView()
                     .preferredColorScheme(.light)

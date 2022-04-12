@@ -15,7 +15,7 @@ struct ProductView: View {
     
     var body: some View {
         VStack {
-            Image("authBG")
+            Image(uiImage: viewModel.image)
                 .resizable()
                 .frame(maxWidth: .infinity, maxHeight: 250)
                 .aspectRatio(1, contentMode: .fit)
@@ -64,6 +64,9 @@ struct ProductView: View {
                     .padding()
             }
             Spacer()
+                .onAppear {
+                    viewModel.getImage()
+                }
         }
     }
 }

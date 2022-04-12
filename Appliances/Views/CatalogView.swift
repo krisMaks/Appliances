@@ -24,6 +24,10 @@ struct CatalogView: View {
                         ForEach(viewModel.popularProducts,
                                 id: \.id) { item in
                             PopularCell(product: item)
+                                .onTapGesture {
+                                    viewModel.currentProduct = item
+                                    isDetailPresented.toggle()
+                                }
                         }
                     }
                 }
@@ -49,6 +53,9 @@ struct CatalogView: View {
             let product = viewModel.currentProduct
             
             ProductView(viewModel: ProductViewModel(product: product))
+        }
+        .onAppear {
+            viewModel.getProducts()
         }
     }
 }

@@ -10,10 +10,11 @@ import SwiftUI
 struct ProductCell: View {
     
     let product: Product
+    @State var image = UIImage(systemName: "ant")
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Image("authBG")
+            Image(uiImage: image!)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(maxWidth: screen.width * 0.45, maxHeight: screen.width * 0.5)
@@ -29,5 +30,16 @@ struct ProductCell: View {
         .cornerRadius(12)
         .shadow(radius: 2)
         .padding(5)
+        .onAppear {
+            StorageService.shared.downloadProductImage(by: product.id) { result in
+                switch result {
+                case .success(let data):
+                    guard let image = UIImage(data: data) else { return }
+                    self.image = image
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
     }
 }

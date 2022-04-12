@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import UIKit
 
 class CatalogViewModel: ObservableObject {
     
@@ -16,34 +16,24 @@ class CatalogViewModel: ObservableObject {
                                             price: 40990,
                                             isPopular: false)
     
-    var popularProducts: [Product] = [Product(id: "1",
-                                              title: "Блендер Pixel-Void 10900",
-                                              descr: "Хорошенький",
-                                              price: 40990,
-                                              isPopular: false),
-                                      Product(id: "2",
-                                                            title: "Кофеварка Dyson-TY800",
-                                                            descr: "Нормально",
-                                                            price: 1599,
-                                                            isPopular: false),
-                                      Product(id: "3",
-                                                            title: "Утюг Philips-AnyKey1200",
-                                                            descr: "Пойдет",
-                                                            price: 17990,
-                                                            isPopular: false)]
-    var products: [Product] = [Product(id: "1",
-                                       title: "Блендер",
-                                       descr: "Хорошенький",
-                                       price: 40990,
-                                       isPopular: false),
-                               Product(id: "2",
-                                                     title: "Кофеварка",
-                                                     descr: "Нормально",
-                                                     price: 1599,
-                                                     isPopular: false),
-                               Product(id: "3",
-                                                     title: "Утюг",
-                                                     descr: "Пойдет",
-                                                     price: 17990,
-                                                     isPopular: false)]
+    @Published var popularProducts = [Product]()
+    @Published var products = [Product]()
+    @Published var images = [String: UIImage]()
+    
+    func getProducts() {
+        DatabaseService.shared.getProducts(filter: .all) { result in
+            switch result {
+            case .success(let products):
+                self.products = products
+                for product in products {
+                    if product.isPopular { self.popularProducts.append(product) }                    
+                    }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    
+    
 }

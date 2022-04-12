@@ -35,6 +35,17 @@ class StorageService {
         }
     }
     
+    func downloadProductImage(by id: String, completion: @escaping (Result<Data, Error>) -> ()) {
+        let fileRef = productsRef.child(id)
+        fileRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
+            if let data = data {
+                completion(.success(data))
+            } else if let error = error {
+                completion(.failure(error))
+            }
+        }
+    }
+    
     func downloadAvatar(completion: @escaping (Result<Data, Error>) -> ()) {
         let fileRef = avatarsRef.child(currentUserId!)
         fileRef.getData(maxSize: 2 * 1024 * 1024) { data, error in

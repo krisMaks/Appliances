@@ -29,6 +29,9 @@
 		AF139D8C27EDD301000F7F62 /* CatalogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF139D8B27EDD301000F7F62 /* CatalogViewModel.swift */; };
 		AF4D958227FF49440004C50B /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4D958127FF49440004C50B /* StorageService.swift */; };
 		AF4D95842800767F0004C50B /* AddProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4D95832800767F0004C50B /* AddProductView.swift */; };
+		AF4D95872805DBCF0004C50B /* ProductFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4D95862805DBCF0004C50B /* ProductFilter.swift */; };
+		AF4D95892805E91D0004C50B /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4D95882805E91D0004C50B /* OrderView.swift */; };
+		AF4D958B2805E94D0004C50B /* OrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4D958A2805E94D0004C50B /* OrderViewModel.swift */; };
 		AF859F9B27FCA45F001A8604 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF859F9A27FCA45F001A8604 /* Order.swift */; };
 		AF97CA6D27F6023A0098FA92 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AF97CA6C27F6023A0098FA92 /* GoogleService-Info.plist */; };
 		AF97CA7027F603AE0098FA92 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = AF97CA6F27F603AE0098FA92 /* FirebaseAuth */; };
@@ -64,6 +67,9 @@
 		AF139D8B27EDD301000F7F62 /* CatalogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogViewModel.swift; sourceTree = "<group>"; };
 		AF4D958127FF49440004C50B /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		AF4D95832800767F0004C50B /* AddProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductView.swift; sourceTree = "<group>"; };
+		AF4D95862805DBCF0004C50B /* ProductFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductFilter.swift; sourceTree = "<group>"; };
+		AF4D95882805E91D0004C50B /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
+		AF4D958A2805E94D0004C50B /* OrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderViewModel.swift; sourceTree = "<group>"; };
 		AF859F9A27FCA45F001A8604 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		AF97CA6C27F6023A0098FA92 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AF97CA7527F605E80098FA92 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -147,6 +153,7 @@
 				AF139D4627E4F253000F7F62 /* CartView.swift */,
 				AF139D4827E4F264000F7F62 /* ProfileView.swift */,
 				AF139D8027ECCDC1000F7F62 /* ProductView.swift */,
+				AF4D95882805E91D0004C50B /* OrderView.swift */,
 				AF4D9585280076850004C50B /* AdminView */,
 			);
 			path = Views;
@@ -168,6 +175,8 @@
 				AF139D8627ECD67A000F7F62 /* Product.swift */,
 				AF97CA7C27F616790098FA92 /* Users.swift */,
 				AF859F9A27FCA45F001A8604 /* Order.swift */,
+				AF4D95862805DBCF0004C50B /* ProductFilter.swift */,
+				AF4D958A2805E94D0004C50B /* OrderViewModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -291,6 +300,7 @@
 				AF139D4327E4F0ED000F7F62 /* TabBarView.swift in Sources */,
 				AF139D8127ECCDC1000F7F62 /* ProductView.swift in Sources */,
 				AF139D8C27EDD301000F7F62 /* CatalogViewModel.swift in Sources */,
+				AF4D95872805DBCF0004C50B /* ProductFilter.swift in Sources */,
 				AF97CA7D27F616790098FA92 /* Users.swift in Sources */,
 				AF139D4527E4F234000F7F62 /* CatalogView.swift in Sources */,
 				AF139D8527ECD644000F7F62 /* Position.swift in Sources */,
@@ -298,11 +308,13 @@
 				AF139D8727ECD67A000F7F62 /* Product.swift in Sources */,
 				AF139D4927E4F264000F7F62 /* ProfileView.swift in Sources */,
 				AF97CA7827F60C020098FA92 /* ProfileViewModel.swift in Sources */,
+				AF4D958B2805E94D0004C50B /* OrderViewModel.swift in Sources */,
 				AF97CA7B27F615C70098FA92 /* DatabaseService.swift in Sources */,
 				AF139D7B27ECC6CC000F7F62 /* ImagePicker.swift in Sources */,
 				AF139D7627EA365B000F7F62 /* ProductCell.swift in Sources */,
 				AF139D7427EA302D000F7F62 /* OrderCell.swift in Sources */,
 				AF859F9B27FCA45F001A8604 /* Order.swift in Sources */,
+				AF4D95892805E91D0004C50B /* OrderView.swift in Sources */,
 				AF139D7F27ECC725000F7F62 /* ImagePickerSourceType.swift in Sources */,
 				AF139D3527E4E641000F7F62 /* AppliancesApp.swift in Sources */,
 			);

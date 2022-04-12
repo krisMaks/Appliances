@@ -16,6 +16,7 @@ struct AuthView: View {
     @State var isAlertShow = false
     @State var isAuth = true
     @State var isTabBarShow = false
+    @State var isAdminViewShow = false
     
     var body: some View {
         
@@ -53,8 +54,12 @@ struct AuthView: View {
                         AuthService.shared.signIn(email: email,
                                                   password: password) { result in
                             switch result {
-                            case .success(_):
-                                isTabBarShow.toggle()
+                            case .success(let user):
+                                if user.uid == "gsTSbgVWswYHIGILKLFkWqovbrC2" {
+                                    isAdminViewShow.toggle()
+                                } else {
+                                    isTabBarShow.toggle()
+                                }
                             case .failure(let error):
                                 message = "Ошибка авторизации \(error.localizedDescription)"
                                 isAlertShow.toggle()
@@ -117,6 +122,9 @@ struct AuthView: View {
                          onDismiss: nil) {
             TabBarView()
         }
+                         .fullScreenCover(isPresented: $isAdminViewShow, content: {
+                             AddProductView()
+                         })
                          .alert(message,
                                 isPresented: $isAlertShow) {
                              Text("OK")

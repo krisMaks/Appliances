@@ -19,6 +19,30 @@ class DatabaseService {
     
     private init() { }
     
+    func getProducts(filter: ProductFilter, completion: @escaping (Result<[Product], Error>) -> ()) {
+        productsRef.getDocuments { qSnap, error in
+            var products = [Product]()
+            if let snap = qSnap {
+                for doc in snap.documents {
+                    if let product = Product(doc: doc) {
+                        switch filter {
+                            case .all:
+                            products.append(product)
+                        
+                    case .popular:
+                            if product.isPopular {
+                                products.append(product)
+                            }
+                    }
+                    }
+                }
+                completion(.success(products))
+            } else if let error = error {
+                completion(.failure(error))
+            }
+        }
+    }
+    
     func createProduct(_ product: Product,
                        image: UIImage,
                        completion: @escaping (Result<String, Error>) -> ()) {
@@ -61,7 +85,7 @@ class DatabaseService {
         }
     }
     
-    func getOrders(userID: String,
+    func getOrders(userID: String?,
                    completion: @escaping (Result<[Order], Error>) -> ()) {
         var orders = [Order]()
         ordersRef.getDocuments { queryDocSnap, error in
@@ -71,7 +95,13 @@ class DatabaseService {
             } else if let queryDocSnap = queryDocSnap {
                 for doc in queryDocSnap.documents {
                     guard let order = Order(doc: doc) else { return }
-                    orders.append(order)
+                    if let userID = userID {
+                        if userID == order.userID {
+                            orders.append(order)
+                        }
+                    } else {
+                        orders.append(order)
+                    }
                 }
                 completion(.success(orders))
             }
