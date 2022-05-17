@@ -87,7 +87,7 @@ struct ProfileView: View {
                     .background(Color.red)
                     .font(.custom("AvenirNext-bold", size: 16))
                     .cornerRadius(12)
-            }
+            }.padding(16)
         }
         .onSubmit {
             if let phone = Int(viewModel.phone) {

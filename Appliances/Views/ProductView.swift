@@ -17,8 +17,8 @@ struct ProductView: View {
         VStack {
             Image(uiImage: viewModel.image)
                 .resizable()
-                .frame(maxWidth: .infinity, maxHeight: 250)
-                .aspectRatio(1, contentMode: .fit)
+                .frame(maxWidth: 250, maxHeight: 250)
+                .aspectRatio(contentMode: .fit)
             HStack {
                 VStack(alignment: .leading, spacing: 12) {
                     Text(viewModel.product.title)
@@ -27,8 +27,6 @@ struct ProductView: View {
                         .font(.custom("AvenirNext-regular", size: 20))
                     Text(viewModel.product.descr)
                         .font(.custom("AvenirNext-regular", size: 16))
-
-                    
                 }.padding(.horizontal)
                 Spacer()
             }

@@ -23,6 +23,7 @@ struct AddProductView: View {
             Image(uiImage: image!)
                 .resizable()
                 .frame(width: screen.width, height: 200)
+                .imageScale(.medium)
                 .onTapGesture {
                     isShowImagePickerAlert.toggle()
                 }

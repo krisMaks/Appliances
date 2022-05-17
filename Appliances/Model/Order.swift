@@ -76,6 +76,4 @@ struct Order: Identifiable {
         self.date = date.dateValue()
         self.status = status
     }
-    
-    
 }

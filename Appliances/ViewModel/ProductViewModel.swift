@@ -12,7 +12,7 @@ class ProductViewModel: ObservableObject {
     
     @Published var product: Product
     @Published var count = 1
-    @Published var image = UIImage(systemName: "ant")!
+    @Published var image = UIImage(systemName: "bonjour")!
     
     init(product: Product) {
         self.product = product

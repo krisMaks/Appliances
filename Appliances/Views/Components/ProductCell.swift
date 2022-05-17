@@ -10,13 +10,13 @@ import SwiftUI
 struct ProductCell: View {
     
     let product: Product
-    @State var image = UIImage(systemName: "ant")
+    @State var image = UIImage(systemName: "bonjour")
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Image(uiImage: image!)
                 .resizable()
-                .aspectRatio(contentMode: .fill)
+                .aspectRatio(contentMode: .fit)
                 .frame(maxWidth: screen.width * 0.45, maxHeight: screen.width * 0.5)
                 
             Text(product.title)

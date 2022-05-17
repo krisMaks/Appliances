@@ -22,4 +22,16 @@ class CartViewModel: ObservableObject {
         }
         return sum
     }
+    
+    func sendOrder(order: Order) {
+        DatabaseService.shared.sendOrder(with: order) { result in
+            switch result {
+            case .success(let order):
+                print("Заказ принят в \(order.date)")
+                self.positions.removeAll()
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
 }

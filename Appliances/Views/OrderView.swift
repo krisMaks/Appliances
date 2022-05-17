@@ -9,12 +9,33 @@ import SwiftUI
 
 struct OrderView: View {
     @StateObject var viewModel: OrderViewModel
+    var status = ["Новый", "Готовится", "Доставляется", "Отменен", "Выполнен"]
+    @State var selection = ""
+    
     var body: some View {
         VStack {
             Text("Заказ № \(viewModel.order.id)")
             List(viewModel.order.positions, id: \.id) { position in
                 CartCell(position: position)
             }.listStyle(.plain)
+            
+            if AuthService.shared.isAdmin {
+                Picker("Статус заказа", selection: $selection) {
+                    ForEach(status, id: \.self) {
+                        Text($0)
+                    }
+                    
+                }.pickerStyle(.wheel)
+                Button {
+                    viewModel.order.status = selection
+                    viewModel.setOrderStatus()
+                } label: {
+                    Text("Сохранить")
+                }
+
+            }
+                
+            
             HStack {
                 Text("Итого:")
                     .font(.custom("AvenirNext-bold", size: 16))
@@ -23,6 +44,9 @@ struct OrderView: View {
                     .font(.custom("AvenirNext-bold", size: 16))
             }.padding()
         }.padding()
+            .onAppear {
+                self.selection = viewModel.order.status
+            }
         
     }
 }

@@ -18,7 +18,6 @@ class CatalogViewModel: ObservableObject {
     
     @Published var popularProducts = [Product]()
     @Published var products = [Product]()
-    @Published var images = [String: UIImage]()
     
     func getProducts() {
         DatabaseService.shared.getProducts(filter: .all) { result in
@@ -33,7 +32,4 @@ class CatalogViewModel: ObservableObject {
             }
         }
     }
-    
-    
-    
 }

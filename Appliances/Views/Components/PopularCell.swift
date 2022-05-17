@@ -10,7 +10,7 @@ import SwiftUI
 struct PopularCell: View {
     
     let product: Product
-    @State var image = UIImage(systemName: "ant")
+    @State var image = UIImage(systemName: "bonjour")
     
     var body: some View {
         VStack {

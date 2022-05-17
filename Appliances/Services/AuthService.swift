@@ -13,7 +13,7 @@ class AuthService {
     static let shared = AuthService()
     let auth = Auth.auth()
     var currentUser: User? { auth.currentUser }
-    
+    var isAdmin: Bool { currentUser?.uid == "gsTSbgVWswYHIGILKLFkWqovbrC2" }
     private init() { }
     
     func signUp(email: String,

@@ -123,7 +123,7 @@ struct AuthView: View {
             TabBarView()
         }
                          .fullScreenCover(isPresented: $isAdminViewShow, content: {
-                             AddProductView()
+                             AdminOrdersView()
                          })
                          .alert(message,
                                 isPresented: $isAlertShow) {

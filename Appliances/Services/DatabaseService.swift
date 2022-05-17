@@ -19,6 +19,19 @@ class DatabaseService {
     
     private init() { }
     
+    func deleteProduct(by productId: String, completion: @escaping () -> ()) {
+        StorageService.shared.deleteProductImage(by: productId) { result in
+            switch result {
+                
+            case .success( _):
+                self.productsRef.document(productId).delete()
+                completion()
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     func getProducts(filter: ProductFilter, completion: @escaping (Result<[Product], Error>) -> ()) {
         productsRef.getDocuments { qSnap, error in
             var products = [Product]()
@@ -26,14 +39,14 @@ class DatabaseService {
                 for doc in snap.documents {
                     if let product = Product(doc: doc) {
                         switch filter {
-                            case .all:
+                        case .all:
                             products.append(product)
-                        
-                    case .popular:
+                            
+                        case .popular:
                             if product.isPopular {
                                 products.append(product)
                             }
-                    }
+                        }
                     }
                 }
                 completion(.success(products))
@@ -115,7 +128,7 @@ class DatabaseService {
                 completion(.failure(error))
             } else {
                 self.sendPositions(orderID: order.id,
-                              positions: order.positions) { result in
+                                   positions: order.positions) { result in
                     switch result {
                         
                     case .success(_):
@@ -144,7 +157,7 @@ class DatabaseService {
     }
     
     func setUser(user: Users,
-                   completion: @escaping (Result<Users, Error>) -> ()) {
+                 completion: @escaping (Result<Users, Error>) -> ()) {
         usersRef.document(user.id).setData(user.representation) { error in
             if let error = error {
                 completion(.failure(error))

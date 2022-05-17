@@ -21,6 +21,18 @@ class StorageService {
     
     private init() { }
     
+    func deleteProductImage(by productId: String, completion: @escaping (Result<String, Error>) -> ()) {
+        productsRef.child(productId).delete() {
+            error in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                completion(.success("OK"))
+            }
+        }
+    }
+    
+    
     func upload(photo: UIImage, completion: @escaping (Result<String, Error>) -> ()) {
         guard let imadeData = photo.jpegData(compressionQuality: 0.03) else { return }
         let metadata = StorageMetadata()

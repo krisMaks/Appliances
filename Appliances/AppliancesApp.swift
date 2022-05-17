@@ -24,7 +24,7 @@ struct AppliancesApp: App {
 //                    }
 //                }
                 if user.uid == "gsTSbgVWswYHIGILKLFkWqovbrC2" {
-                    AddProductView()
+                    AdminOrdersView()
                 } else {
                     TabBarView()
                         .preferredColorScheme(.light)
